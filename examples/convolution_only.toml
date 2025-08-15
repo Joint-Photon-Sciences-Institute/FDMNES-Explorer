@@ -1,0 +1,43 @@
+# Example for running convolutions on existing main calculations
+
+# FDMNES execution settings
+fdmnes_executable = "~/FDMNES/parallel_fdmnes/mpirun_fdmnes"
+num_cores = 20
+
+# Point to existing main calculation directories
+# Option 1: Auto-discover all subdirectories with main calculations
+main_dir_root = "path/to/previous_exploration_runs"
+
+# Option 2: Specify individual directories
+# existing_main_dirs = [
+#     "exploration_runs/run_000",
+#     "exploration_runs/run_001"
+# ]
+
+# Plot options
+[plot_options]
+individual = true   # Create individual plots
+combined = true     # Create combined comparison plot
+
+# Convolution parameters to iterate
+fdmnes_conv = """
+Broadening
+1.5
+
+Ecent
+100.
+
+# Iterate over different gamma_hole values
+Gamma_hole ITERATE
+[0.5, 1.0, 1.5, 2.0, 2.5]
+
+# Iterate over energy cutoff range
+E_cut ITERATE
+range[-10, 10, 5]
+
+Gamma_max
+0.6
+
+Efermi
+3.2
+"""

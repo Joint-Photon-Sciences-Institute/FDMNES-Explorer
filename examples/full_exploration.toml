@@ -1,0 +1,96 @@
+# Comprehensive example showing all features
+
+# ==============================================================================
+# FDMNES EXECUTION SETTINGS
+# ==============================================================================
+
+fdmnes_executable = "~/FDMNES/parallel_fdmnes/mpirun_fdmnes"
+num_cores = 20
+output_dir = "exploration_runs"
+
+# ==============================================================================
+# INPUT FILES
+# ==============================================================================
+
+structure = "path/to/structure.cif"
+
+# ==============================================================================
+# PLOTTING OPTIONS
+# ==============================================================================
+
+[plot_options]
+individual = true  # Individual plots for each spectrum
+combined = true    # Combined overlay plot for comparison
+
+# ==============================================================================
+# MAIN CALCULATION PARAMETERS
+# ==============================================================================
+
+fdmnes_input = """
+Energpho
+
+Range
+-10.0 .1 -5.0 .005 0.0 .05 2.0 0.01 3.2 .1 7.0
+
+Green
+
+# Boolean iteration - with/without excited state
+Excited ITERATE
+
+# Discrete values for screening
+Screening ITERATE
+[0.2, 0.3, 0.4, 0.5]
+
+# Range iteration for radius
+Radius ITERATE
+range[5.0, 7.0, 0.5]
+
+# Boolean iteration - with/without spin-orbit coupling
+Spinorbit ITERATE
+
+Edge
+K
+
+Z_absorber
+26
+"""
+
+# ==============================================================================
+# CONVOLUTION PARAMETERS
+# ==============================================================================
+
+fdmnes_conv = """
+Broadening
+1.5
+
+Ecent
+100.
+
+# Iterate gamma_hole values
+Gamma_hole ITERATE
+[0.5, 1.0, 1.5, 2.0]
+
+# Iterate energy cutoff
+E_cut ITERATE
+range[-5, 5, 2.5]
+
+Gamma_max
+0.6
+
+Efermi
+3.2
+"""
+
+# ==============================================================================
+# EXECUTION NOTES
+# ==============================================================================
+
+# This configuration will create:
+# - Main calculations: 2 (Excited) × 4 (Screening) × 5 (Radius) × 2 (Spinorbit) = 80 runs
+# - Convolutions: 80 (main) × 4 (Gamma_hole) × 5 (E_cut) = 1600 total
+#
+# Each run will have descriptive names like:
+# - run_000_Excited_on_Screening_0p2_Radius_5p0_Spinorbit_on
+# - run_001_Excited_on_Screening_0p2_Radius_5p0_Spinorbit_off
+#
+# Outputs will be organized in a clear directory structure with plots

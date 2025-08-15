@@ -1,0 +1,51 @@
+# Basic parameter exploration example
+
+# FDMNES execution settings
+fdmnes_executable = "~/FDMNES/parallel_fdmnes/mpirun_fdmnes"
+num_cores = 20
+output_dir = "exploration_runs"
+
+# Structure file
+structure = "path/to/your/structure.cif"
+
+# Main calculation parameters with ITERATE keywords
+fdmnes_input = """
+Range
+-10.0 .1 -5.0 .005 0.0 .05 2.0 0.01 3.2 .1 7.0
+
+Green
+
+# Iterate over screening values
+Screening ITERATE
+[0.2, 0.3, 0.4]
+
+# Boolean parameter - run with and without spinorbit
+Spinorbit ITERATE
+
+Edge
+K
+
+Radius
+6.0
+
+Z_absorber
+26
+"""
+
+# Convolution parameters
+fdmnes_conv = """
+Broadening
+1.5
+
+Ecent
+100.
+
+Gamma_hole
+0.5
+
+Gamma_max
+0.6
+
+Efermi
+3.2
+"""

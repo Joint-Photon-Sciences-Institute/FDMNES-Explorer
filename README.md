@@ -256,7 +256,7 @@ If you use FDMNES Explorer in your research, please cite:
 @software{fdmnes_explorer,
   title = {FDMNES Explorer: Automated Parameter Space Exploration for FDMNES},
   author = {Joint Photon Sciences Institute},
-  year = {2024},
+  year = {2025},
   url = {https://github.com/Joint-Photon-Sciences-Institute/FDMNES-Explorer}
 }
 ```
